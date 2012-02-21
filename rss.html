@@ -7,6 +7,93 @@
         <language>en-us</language>
         <pubDate>Mon, 20 Feb 2012 15:00:00 GMT</pubDate>
         <item>
+            <link>http://yosisa.github.com/blog/2012/02/21/sphinx_blog_using_tinkerer_and_github.html</link>
+            <guid>http://yosisa.github.com/blog/2012/02/21/sphinx_blog_using_tinkerer_and_github.html</guid>
+            <title>Tinkerer と GitHub ではじめる Sphinx blog</title>
+            <description><![CDATA[<?xml version="1.0" ?><div class="section" id="tinkerer-github-sphinx-blog">
+<h1>Tinkerer と GitHub ではじめる Sphinx blog</h1>
+<p>sphinx を使い始めてブログも sphinx で書けたらいいのになと思っていたところに<a class="reference external" href="http://tinkerer.bitbucket.org/"> tinkerer</a> がリリースされました。このブログも tinkerer で作成されています。</p>
+<p>今回は tinkerer でブログを作成して github で公開する方法を紹介します。</p>
+<p>参考:<a class="reference external" href="http://d.hatena.ne.jp/rudi/20120106/1325861293"> Tinkererを使ってbitbucketでblogはじめました - そこはかとなく書くよ。</a></p>
+<div class="section" id="id1">
+<h2>セットアップ</h2>
+<p>インストールはいつものように<strong class="program"> pip</strong> で。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ pip install tinkerer
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">0.2.1b 以下のバージョンは日本語を扱えないので新しいバージョンを入れましょう。<a class="reference external" href="https://bitbucket.org/vladris/tinkerer/pull-request/2/add-unicode-support">pull request</a> を出したら採用してもらえました :)</p>
+</div>
+<p>ブログを書くためのディレクトリを作成して、環境を作ります。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ mkdir -p ~/blog/sources
+$ cd ~/blog/sources
+$ tinker --setup
+</pre></div>
+</div>
+<p><tt class="file docutils literal"><span class="pre">conf.py</span></tt> という設定ファイルの雛形が作成されるので、適宜変更してやります。日本語は <tt class="docutils literal"><span class="pre">u''</span></tt> を使って unicode で書かないとビルドできないので注意しましょう。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">project</span> <span class="o">=</span> <span class="s">u'&lt;ブログ名&gt;'</span>
+<span class="n">tagline</span> <span class="o">=</span> <span class="s">u'&lt;サブタイトル&gt;'</span>
+<span class="n">author</span> <span class="o">=</span> <span class="s">u'&lt;名前&gt;'</span>
+<span class="n">copyright</span> <span class="o">=</span> <span class="s">u'2012, '</span> <span class="o">+</span> <span class="n">author</span>
+<span class="n">website</span> <span class="o">=</span> <span class="s">u'http://&lt;account&gt;.github.com/blog/'</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>ブログを書く</h2>
+<p>それでは実際にブログエントリを作成しましょう。</p>
+<p>以下のコマンドを実行して新しいエントリを追加します。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ tinker -p 'first post'
+New post created as '/Users/.../blog/2012/02/21/first_post.rst'
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">-p</span></tt> オプションにはタイトルを指定しますが、日本語を入れると嬉しくないことが起きます。この名前がそのまま url になるのでファイル名を入れるイメージがちょうどいいです。</p>
+<p>作成されたファイルのパスが表示されるので、これをエディタで開いて編集しましょう。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ vim 2012/02/21/first_post.rst
+</pre></div>
+</div>
+<p>編集したらビルドして確認しましょう。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ tinker -b
+$ open index.html
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>公開する</h2>
+<p>blog を静的に作成できるようになったので後は github で公開するだけです。</p>
+<p>github で公開するに当たって、ソースごと全て公開するか生成後の HTML だけ公開するかを選択する必要があります。今回は、生成後の HTML だけ公開することにします。</p>
+<p>tinkerer はビルド時に出力先を削除して作り直すため、<tt class="file docutils literal"><span class="pre">blog/html</span></tt> に git リポジトリを作成しても意味がありません。そのため、公開用のリポジトリを別に作成し、そこにコピーするようにします。</p>
+<p>ブラウザで github にアクセスして blog リポジトリを作成してください。</p>
+<p>公開用の git リポジトリを作成します。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ mkdir ~/blog/publish
+$ cd ~/blog/publish
+$ git init
+$ git remote add origin git@github.com:&lt;account&gt;/blog.git
+</pre></div>
+</div>
+<p>標準では Jekyll サポートのため _ (underscore) から始まるディレクトリを使用できません。このままだと困るので Jekyll サポートを無効化するためのファイルを作成します。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ touch .nojekyll
+</pre></div>
+</div>
+<p>ビルド済みの html をコピーします。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ rsync -av ~/blog/sources/blog/html/ .
+</pre></div>
+</div>
+<p>追加、コミットし、master ブランチを gh-pages ブランチにプッシュします。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ git add .
+$ git commit -m 'first post'
+$ git push -u origin master:gh-pages
+</pre></div>
+</div>
+<p>反映されるまで 10 分程かかるようなので、しばらくしてから確認しましょう。</p>
+<p>これで <tt class="docutils literal"><span class="pre">http://&lt;account&gt;.github.com/blog/</span></tt> という url でブログができるようになりました。</p>
+</div>
+</div>]]></description>
+            <category><![CDATA[ sphinx ]]></category>
+            <pubDate>Mon, 20 Feb 2012 15:00:00 GMT</pubDate>
+        </item>
+        <item>
             <link>http://yosisa.github.com/blog/2012/02/21/first_post.html</link>
             <guid>http://yosisa.github.com/blog/2012/02/21/first_post.html</guid>
             <title>移転しました</title>

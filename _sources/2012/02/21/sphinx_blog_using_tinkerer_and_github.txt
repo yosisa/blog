@@ -1,0 +1,106 @@
+.. highlight:: none
+
+Tinkerer と GitHub ではじめる Sphinx blog
+=========================================
+sphinx を使い始めてブログも sphinx で書けたらいいのになと思っていたところに
+`tinkerer <http://tinkerer.bitbucket.org/>`_ がリリースされました。
+このブログも tinkerer で作成されています。
+
+今回は tinkerer でブログを作成して github で公開する方法を紹介します。
+
+参考: `Tinkererを使ってbitbucketでblogはじめました - そこはかとなく書くよ。 <http://d.hatena.ne.jp/rudi/20120106/1325861293>`_
+
+セットアップ
+------------
+インストールはいつものように :program:`pip` で。 ::
+
+  $ pip install tinkerer
+
+.. note::
+
+   0.2.1b 以下のバージョンは日本語を扱えないので新しいバージョンを入れましょう。
+   `pull request`_ を出したら採用してもらえました :)
+
+ブログを書くためのディレクトリを作成して、環境を作ります。 ::
+
+  $ mkdir -p ~/blog/sources
+  $ cd ~/blog/sources
+  $ tinker --setup
+
+:file:`conf.py` という設定ファイルの雛形が作成されるので、適宜変更してやります。
+日本語は ``u''`` を使って unicode で書かないとビルドできないので注意しましょう。
+
+.. code-block:: python
+
+   project = u'<ブログ名>'
+   tagline = u'<サブタイトル>'
+   author = u'<名前>'
+   copyright = u'2012, ' + author
+   website = u'http://<account>.github.com/blog/'
+
+.. _`pull request`: https://bitbucket.org/vladris/tinkerer/pull-request/2/add-unicode-support
+
+ブログを書く
+------------
+それでは実際にブログエントリを作成しましょう。
+
+以下のコマンドを実行して新しいエントリを追加します。 ::
+
+  $ tinker -p 'first post'
+  New post created as '/Users/.../blog/2012/02/21/first_post.rst'
+
+``-p`` オプションにはタイトルを指定しますが、日本語を入れると嬉しくないことが起きます。この名前がそのまま url になるのでファイル名を入れるイメージがちょうどいいです。
+
+作成されたファイルのパスが表示されるので、これをエディタで開いて編集しましょう。 ::
+
+  $ vim 2012/02/21/first_post.rst
+
+編集したらビルドして確認しましょう。 ::
+
+  $ tinker -b
+  $ open index.html
+
+公開する
+--------
+blog を静的に作成できるようになったので後は github で公開するだけです。
+
+github で公開するに当たって、ソースごと全て公開するか生成後の HTML だけ公開するかを選択する必要があります。今回は、生成後の HTML だけ公開することにします。
+
+tinkerer はビルド時に出力先を削除して作り直すため、 :file:`blog/html` に git リポジトリを作成しても意味がありません。そのため、公開用のリポジトリを別に作成し、そこにコピーするようにします。
+
+ブラウザで github にアクセスして blog リポジトリを作成してください。
+
+公開用の git リポジトリを作成します。 ::
+
+  $ mkdir ~/blog/publish
+  $ cd ~/blog/publish
+  $ git init
+  $ git remote add origin git@github.com:<account>/blog.git
+
+標準では Jekyll サポートのため _ (underscore) から始まるディレクトリを使用できません。このままだと困るので Jekyll サポートを無効化するためのファイルを作成します。 ::
+
+  $ touch .nojekyll
+
+ビルド済みの html をコピーします。 ::
+
+  $ rsync -av ~/blog/sources/blog/html/ .
+
+追加、コミットし、master ブランチを gh-pages ブランチにプッシュします。 ::
+
+  $ git add .
+  $ git commit -m 'first post'
+  $ git push -u origin master:gh-pages
+
+反映されるまで 10 分程かかるようなので、しばらくしてから確認しましょう。
+
+これで ``http://<account>.github.com/blog/`` という url でブログができるようになりました。
+
+.. author:: default
+.. categories:: sphinx
+.. tags:: python, tinkerer, sphinx, blog, github
+.. comments::
+
+
+
+
+

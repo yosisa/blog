@@ -4,8 +4,6 @@
 
 
 
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,27 +12,28 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Home &mdash; log.randomly</title>
+    <title>Tinkerer と GitHub ではじめる Sphinx blog &mdash; log.randomly</title>
     
-    <link rel="stylesheet" href="_static/modern.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/modern.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    '../../../',
         VERSION:     '0.3.1b',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="shortcut icon" href="_static/tinkerer.ico"/>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../../_static/tinkerer.ico"/>
     
-    <link rel="top" title="log.randomly" href="#" />
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.html">
+    <link rel="top" title="log.randomly" href="../../../index.html" />
+    <link rel="next" title="移転しました" href="first_post.html" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html">
      
 
     
@@ -55,7 +54,7 @@
     
     <div class="header">
         <h1 class="heading">
-            <a href="#">
+            <a href="../../../index.html">
                 <span>log.randomly</span>
             </a>
         </h1>
@@ -65,12 +64,12 @@
         <ul>
             
             <li>
-                <a href="#">Home</a>
+                <a href="../../../index.html">Home</a>
             </li>
             
             <li class="right">
                 
-    <a href="rss.html" title="Subscribe via RSS">
+    <a href="../../../rss.html" title="Subscribe via RSS">
         <div class="rss"><span class="webfont">B</span>
             
         </div>
@@ -86,17 +85,17 @@
     <h3>Recent Posts</h3>
     <ul>
         <li>
-            <a href="2012/02/21/sphinx_blog_using_tinkerer_and_github.html">Tinkerer と GitHub ではじめる Sphinx blog</a>
+            <a href="#">Tinkerer と GitHub ではじめる Sphinx blog</a>
         </li>
         <li>
-            <a href="2012/02/21/first_post.html">移転しました</a>
+            <a href="first_post.html">移転しました</a>
         </li>
     </ul>
 </div>
 
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
+    <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
@@ -116,12 +115,19 @@
           <div class="body">
             
     
-        
+    <div class="related">
+        <ul>
+            <li class="right">
+                <a href="first_post.html">移転しました</a> &raquo; 
+            </li>
+        </ul>
+    </div>
+    
         <div class="timestamp postmeta">
             <span>February 21, 2012</span> 
         </div>
-        <?xml version="1.0" ?><div class="section" id="tinkerer-github-sphinx-blog">
-<a href="2012/02/21/sphinx_blog_using_tinkerer_and_github.html"><h1>Tinkerer と GitHub ではじめる Sphinx blog</h1></a>
+    <div class="section" id="tinkerer-github-sphinx-blog">
+<h1>Tinkerer と GitHub ではじめる Sphinx blog</h1>
 <p>sphinx を使い始めてブログも sphinx で書けたらいいのになと思っていたところに<a class="reference external" href="http://tinkerer.bitbucket.org/"> tinkerer</a> がリリースされました。このブログも tinkerer で作成されています。</p>
 <p>今回は tinkerer でブログを作成して github で公開する方法を紹介します。</p>
 <p>参考:<a class="reference external" href="http://d.hatena.ne.jp/rudi/20120106/1325861293"> Tinkererを使ってbitbucketでblogはじめました - そこはかとなく書くよ。</a></p>
@@ -142,11 +148,11 @@ $ tinker --setup
 </pre></div>
 </div>
 <p><tt class="file docutils literal"><span class="pre">conf.py</span></tt> という設定ファイルの雛形が作成されるので、適宜変更してやります。日本語は <tt class="docutils literal"><span class="pre">u''</span></tt> を使って unicode で書かないとビルドできないので注意しましょう。</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">project</span> <span class="o">=</span> <span class="s">u'&lt;ブログ名&gt;'</span>
-<span class="n">tagline</span> <span class="o">=</span> <span class="s">u'&lt;サブタイトル&gt;'</span>
-<span class="n">author</span> <span class="o">=</span> <span class="s">u'&lt;名前&gt;'</span>
-<span class="n">copyright</span> <span class="o">=</span> <span class="s">u'2012, '</span> <span class="o">+</span> <span class="n">author</span>
-<span class="n">website</span> <span class="o">=</span> <span class="s">u'http://&lt;account&gt;.github.com/blog/'</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">project</span> <span class="o">=</span> <span class="s">u&#39;&lt;ブログ名&gt;&#39;</span>
+<span class="n">tagline</span> <span class="o">=</span> <span class="s">u&#39;&lt;サブタイトル&gt;&#39;</span>
+<span class="n">author</span> <span class="o">=</span> <span class="s">u&#39;&lt;名前&gt;&#39;</span>
+<span class="n">copyright</span> <span class="o">=</span> <span class="s">u&#39;2012, &#39;</span> <span class="o">+</span> <span class="n">author</span>
+<span class="n">website</span> <span class="o">=</span> <span class="s">u&#39;http://&lt;account&gt;.github.com/blog/&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -154,8 +160,8 @@ $ tinker --setup
 <h2>ブログを書く</h2>
 <p>それでは実際にブログエントリを作成しましょう。</p>
 <p>以下のコマンドを実行して新しいエントリを追加します。</p>
-<div class="highlight-none"><div class="highlight"><pre>$ tinker -p 'first post'
-New post created as '/Users/.../blog/2012/02/21/first_post.rst'
+<div class="highlight-none"><div class="highlight"><pre>$ tinker -p &#39;first post&#39;
+New post created as &#39;/Users/.../blog/2012/02/21/first_post.rst&#39;
 </pre></div>
 </div>
 <p><tt class="docutils literal"><span class="pre">-p</span></tt> オプションにはタイトルを指定しますが、日本語を入れると嬉しくないことが起きます。この名前がそのまま url になるのでファイル名を入れるイメージがちょうどいいです。</p>
@@ -192,7 +198,7 @@ $ git remote add origin git@github.com:&lt;account&gt;/blog.git
 </div>
 <p>追加、コミットし、master ブランチを gh-pages ブランチにプッシュします。</p>
 <div class="highlight-none"><div class="highlight"><pre>$ git add .
-$ git commit -m 'first post'
+$ git commit -m &#39;first post&#39;
 $ git push -u origin master:gh-pages
 </pre></div>
 </div>
@@ -200,7 +206,8 @@ $ git push -u origin master:gh-pages
 <p>これで <tt class="docutils literal"><span class="pre">http://&lt;account&gt;.github.com/blog/</span></tt> という url でブログができるようになりました。</p>
 </div>
 </div>
-        
+
+    
     <div class="postmeta">
         
         <div class="author">
@@ -211,7 +218,7 @@ $ git push -u origin master:gh-pages
             <span>
                 Filed under:
                 
-                    <a href="categories/sphinx.html">sphinx</a>
+                    <a href="../../../categories/sphinx.html">sphinx</a>
                 
             </span>
         </div>
@@ -220,51 +227,21 @@ $ git push -u origin master:gh-pages
             <span>
                 Tags:
                 
-                    <a href="tags/python.html">python</a>,
+                    <a href="../../../tags/python.html">python</a>,
                 
-                    <a href="tags/tinkerer.html">tinkerer</a>,
+                    <a href="../../../tags/tinkerer.html">tinkerer</a>,
                 
-                    <a href="tags/sphinx.html">sphinx</a>,
+                    <a href="../../../tags/sphinx.html">sphinx</a>,
                 
-                    <a href="tags/blog.html">blog</a>,
+                    <a href="../../../tags/blog.html">blog</a>,
                 
-                    <a href="tags/github.html">github</a>
-                
-            </span>
-        </div>
-        
-    </div><div class="separator post_separator"></div>
-        
-        <div class="timestamp postmeta">
-            <span>February 21, 2012</span> 
-        </div>
-        <?xml version="1.0" ?><div class="section" id="id1">
-<a href="2012/02/21/first_post.html"><h1>移転しました</h1></a>
-<p>今まで<a class="reference external" href="http://d.hatena.ne.jp/yosisa/">はてなダイアリー</a>でやっていましたが、いつまでたってもはてな記法を覚えられないのと、細かい不満があったので移転しました。</p>
-<p>いろいろ公開していければなーと思っていますので、よろしくお願いします。</p>
-</div>
-        
-    <div class="postmeta">
-        
-        <div class="author">
-            <span>Posted by Yoshihisa Tanaka</span>
-        </div>
-        
-        <div class="categories">
-            <span>
-                Filed under:
-                
-                    <a href="categories/misc.html">misc</a>
+                    <a href="../../../tags/github.html">github</a>
                 
             </span>
         </div>
-        
         
     </div>
     
-    <div class="archive_link">
-        <a href="archive.html"> &mdash; Blog Archive &mdash; </a>
-    </div>
 
           </div>
         </div>
