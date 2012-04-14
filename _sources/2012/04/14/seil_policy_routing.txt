@@ -1,0 +1,25 @@
+.. highlight:: none
+
+SEIL のポリシールーティング機能で Source Routing をする
+=======================================================
+
+SEIL のポリシールーティング機能は、様々な条件を元にパケットを転送する機能です。
+この機能を使うと Source Routing を実現できます。
+
+src addr が pppoe1 に割り当てられた IP アドレスの時は pppoe1 からパケットを転送するのは以下の設定を入れます。 ::
+
+  filter add route0 action forward pppoe1 direction out src pppoe1
+
+この設定を入れると、pppoe1 に来た SEIL 宛ての通信は pppoe1 から応答するようになります。
+2 つの ISP 契約をしていて default gateway が pppoe0 に向いているときでも、往復の経路を一致させることができます。
+
+pppoe0 の ISP が Source Address Validation をやっていて、pppoe1 の IP アドレスと通信ができない時に入れるといいでしょう。 [#f1]_
+
+.. rubric:: 脚注
+
+.. [#f1] pppoe1 と L2TP/IPSec が張れなくなって原因がわからなかったんだけど、そういえば pppoe0 の ISP を nifty から emobile に変えたな〜、というのが発端。
+
+.. author:: default
+.. categories:: network
+.. tags:: seil, network
+.. comments::

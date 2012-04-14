@@ -4,6 +4,7 @@ Sitemap
 .. toctree::
    :maxdepth: 1
 
+   2012/04/14/seil_policy_routing
    2012/02/21/sphinx_blog_using_tinkerer_and_github
    2012/02/21/first_post
 

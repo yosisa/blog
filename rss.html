@@ -5,7 +5,31 @@
         <link>http://yosisa.github.com/blog/</link>
         <description>技術的なあれこれ</description>
         <language>en-us</language>
-        <pubDate>Mon, 20 Feb 2012 15:00:00 GMT</pubDate>
+        <pubDate>Fri, 13 Apr 2012 15:00:00 GMT</pubDate>
+        <item>
+            <link>http://yosisa.github.com/blog/2012/04/14/seil_policy_routing.html</link>
+            <guid>http://yosisa.github.com/blog/2012/04/14/seil_policy_routing.html</guid>
+            <title>SEIL のポリシールーティング機能で Source Routing をする</title>
+            <description><![CDATA[<?xml version="1.0" ?><div class="section" id="seil-source-routing">
+<h1>SEIL のポリシールーティング機能で Source Routing をする</h1>
+<p>SEIL のポリシールーティング機能は、様々な条件を元にパケットを転送する機能です。この機能を使うと Source Routing を実現できます。</p>
+<p>src addr が pppoe1 に割り当てられた IP アドレスの時は pppoe1 からパケットを転送するのは以下の設定を入れます。</p>
+<div class="highlight-none"><div class="highlight"><pre>filter add route0 action forward pppoe1 direction out src pppoe1
+</pre></div>
+</div>
+<p>この設定を入れると、pppoe1 に来た SEIL 宛ての通信は pppoe1 から応答するようになります。2 つの ISP 契約をしていて default gateway が pppoe0 に向いているときでも、往復の経路を一致させることができます。</p>
+<p>pppoe0 の ISP が Source Address Validation をやっていて、pppoe1 の IP アドレスと通信ができない時に入れるといいでしょう。<a class="footnote-reference" href="#f1" id="id1">[1]</a></p>
+<p class="rubric">脚注</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label"/><col/></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>pppoe1 と L2TP/IPSec が張れなくなって原因がわからなかったんだけど、そういえば pppoe0 の ISP を nifty から emobile に変えたな〜、というのが発端。</td></tr>
+</tbody>
+</table>
+</div>]]></description>
+            <category><![CDATA[ network ]]></category>
+            <pubDate>Fri, 13 Apr 2012 15:00:00 GMT</pubDate>
+        </item>
         <item>
             <link>http://yosisa.github.com/blog/2012/02/21/sphinx_blog_using_tinkerer_and_github.html</link>
             <guid>http://yosisa.github.com/blog/2012/02/21/sphinx_blog_using_tinkerer_and_github.html</guid>
