@@ -231,6 +231,7 @@ $ open index.html
 <div class="highlight-none"><div class="highlight"><pre>$ mkdir ~/blog/publish
 $ cd ~/blog/publish
 $ git init
+$ git checkout -b gh-pages
 $ git remote add origin git@github.com:&lt;account&gt;/blog.git
 </pre></div>
 </div>
@@ -242,14 +243,21 @@ $ git remote add origin git@github.com:&lt;account&gt;/blog.git
 <div class="highlight-none"><div class="highlight"><pre>$ rsync -av ~/blog/sources/blog/html/ .
 </pre></div>
 </div>
-<p>追加、コミットし、master ブランチを gh-pages ブランチにプッシュします。</p>
+<p>追加、コミットし、github にプッシュします。</p>
 <div class="highlight-none"><div class="highlight"><pre>$ git add .
 $ git commit -m 'first post'
-$ git push -u origin master:gh-pages
+$ git push -u origin gh-pages
 </pre></div>
 </div>
 <p>反映されるまで 10 分程かかるようなので、しばらくしてから確認しましょう。</p>
 <p>これで <tt class="docutils literal"><span class="pre">http://&lt;account&gt;.github.com/blog/</span></tt> という url でブログができるようになりました。</p>
+</div>
+<div class="section" id="id4">
+<h2>追記</h2>
+<dl class="docutils">
+<dt>2012/04/14</dt>
+<dd>公開用リポジトリで使用するブランチを master から gh-pages に変更しました。</dd>
+</dl>
 </div>
 </div>
         

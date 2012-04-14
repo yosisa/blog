@@ -75,6 +75,7 @@ tinkerer はビルド時に出力先を削除して作り直すため、 :file:`
   $ mkdir ~/blog/publish
   $ cd ~/blog/publish
   $ git init
+  $ git checkout -b gh-pages
   $ git remote add origin git@github.com:<account>/blog.git
 
 標準では Jekyll サポートのため _ (underscore) から始まるディレクトリを使用できません。このままだと困るので Jekyll サポートを無効化するためのファイルを作成します。 ::
@@ -85,22 +86,22 @@ tinkerer はビルド時に出力先を削除して作り直すため、 :file:`
 
   $ rsync -av ~/blog/sources/blog/html/ .
 
-追加、コミットし、master ブランチを gh-pages ブランチにプッシュします。 ::
+追加、コミットし、github にプッシュします。 ::
 
   $ git add .
   $ git commit -m 'first post'
-  $ git push -u origin master:gh-pages
+  $ git push -u origin gh-pages
 
 反映されるまで 10 分程かかるようなので、しばらくしてから確認しましょう。
 
 これで ``http://<account>.github.com/blog/`` という url でブログができるようになりました。
 
+追記
+----
+2012/04/14
+  公開用リポジトリで使用するブランチを master から gh-pages に変更しました。
+
 .. author:: default
 .. categories:: sphinx
 .. tags:: python, tinkerer, sphinx, blog, github
 .. comments::
-
-
-
-
-
