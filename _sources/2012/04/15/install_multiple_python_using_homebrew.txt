@@ -1,0 +1,44 @@
+.. highlight:: none
+
+Homebrew 0.9 で複数バージョンの python をインストール
+=====================================================
+
+homebrew 0.9 では formula リポジトリを追加できるようになったようです。
+これに伴い LibraryAlt から versions が削除されたので、これからは新しいやり方でインストールする必要があります。
+
+最初に homebrew/versions リポジトリが使えるようにします。 ::
+
+  $ brew tap homebrew/versions
+
+あとはいつも通りにインストールできます。 ::
+
+  $ brew install python25 python26 python31
+
+homebrew では複数バージョンの python を同時にアクティブにすることはできません。
+unlink した後、手動で symlink を作成します。 ::
+
+  $ brew unlink python25
+  $ brew unlink python26
+  $ brew unlink python31
+  $ ln -s /usr/local/Cellar/python25/*/bin/python /usr/local/bin/python2.5
+  $ ln -s /usr/local/Cellar/python26/*/bin/python /usr/local/bin/python2.6
+  $ ln -s /usr/local/Cellar/python31/*/bin/python3 /usr/local/bin/python3.1
+
+旧バージョンをインストールしたことでリンクが破壊された可能性があるので、張り直しておきます。 ::
+
+  $ brew unlink python
+  $ brew link python
+  $ brew unlink python3
+  $ brew link python3
+
+これで複数バージョンのインストールが完了しました。
+
+余談ですが、python 3.0 は formula が提供されていないので、自作したものを gist にあげておきました。
+以下のコマンドでインストールできますが、python 3.0 をサポートする必要はないでしょう。 ::
+
+  $ brew install https://gist.github.com/raw/1930137/65bfbd8663cc15cd804166dc4246407afdad4857/python30.rb
+
+.. author:: default
+.. categories:: python
+.. tags:: python, homebrew, mac os x
+.. comments::

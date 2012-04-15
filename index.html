@@ -86,6 +86,9 @@
     <h3>Recent Posts</h3>
     <ul>
         <li>
+            <a href="2012/04/15/install_multiple_python_using_homebrew.html">Homebrew 0.9 で複数バージョンの python をインストール</a>
+        </li>
+        <li>
             <a href="2012/04/14/seil_policy_routing.html">SEIL のポリシールーティング機能で Source Routing をする</a>
         </li>
         <li>
@@ -119,6 +122,73 @@
           <div class="body">
             
     
+        
+        <div class="timestamp postmeta">
+            <span>April 15, 2012</span> 
+        </div>
+        <?xml version="1.0" ?><div class="section" id="homebrew-0-9-python">
+<a href="2012/04/15/install_multiple_python_using_homebrew.html"><h1>Homebrew 0.9 で複数バージョンの python をインストール</h1></a>
+<p>homebrew 0.9 では formula リポジトリを追加できるようになったようです。これに伴い LibraryAlt から versions が削除されたので、これからは新しいやり方でインストールする必要があります。</p>
+<p>最初に homebrew/versions リポジトリが使えるようにします。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew tap homebrew/versions
+</pre></div>
+</div>
+<p>あとはいつも通りにインストールできます。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew install python25 python26 python31
+</pre></div>
+</div>
+<p>homebrew では複数バージョンの python を同時にアクティブにすることはできません。unlink した後、手動で symlink を作成します。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew unlink python25
+$ brew unlink python26
+$ brew unlink python31
+$ ln -s /usr/local/Cellar/python25/*/bin/python /usr/local/bin/python2.5
+$ ln -s /usr/local/Cellar/python26/*/bin/python /usr/local/bin/python2.6
+$ ln -s /usr/local/Cellar/python31/*/bin/python3 /usr/local/bin/python3.1
+</pre></div>
+</div>
+<p>旧バージョンをインストールしたことでリンクが破壊された可能性があるので、張り直しておきます。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew unlink python
+$ brew link python
+$ brew unlink python3
+$ brew link python3
+</pre></div>
+</div>
+<p>これで複数バージョンのインストールが完了しました。</p>
+<p>余談ですが、python 3.0 は formula が提供されていないので、自作したものを gist にあげておきました。以下のコマンドでインストールできますが、python 3.0 をサポートする必要はないでしょう。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew install https://gist.github.com/raw/1930137/65bfbd8663cc15cd804166dc4246407afdad4857/python30.rb
+</pre></div>
+</div>
+</div>
+        
+    <div class="postmeta">
+        
+        <div class="author">
+            <span>Posted by Yoshihisa Tanaka</span>
+        </div>
+        
+        <div class="categories">
+            <span>
+                Filed under:
+                
+                    <a href="categories/python.html">python</a>
+                
+            </span>
+        </div>
+        
+        <div class="tags">
+            <span>
+                Tags:
+                
+                    <a href="tags/python.html">python</a>,
+                
+                    <a href="tags/homebrew.html">homebrew</a>,
+                
+                    <a href="tags/mac_os_x.html">mac os x</a>
+                
+            </span>
+        </div>
+        
+    </div><div class="separator post_separator"></div>
         
         <div class="timestamp postmeta">
             <span>April 14, 2012</span> 

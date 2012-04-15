@@ -5,7 +5,47 @@
         <link>http://yosisa.github.com/blog/</link>
         <description>技術的なあれこれ</description>
         <language>en-us</language>
-        <pubDate>Fri, 13 Apr 2012 15:00:00 GMT</pubDate>
+        <pubDate>Sat, 14 Apr 2012 15:00:00 GMT</pubDate>
+        <item>
+            <link>http://yosisa.github.com/blog/2012/04/15/install_multiple_python_using_homebrew.html</link>
+            <guid>http://yosisa.github.com/blog/2012/04/15/install_multiple_python_using_homebrew.html</guid>
+            <title>Homebrew 0.9 で複数バージョンの python をインストール</title>
+            <description><![CDATA[<?xml version="1.0" ?><div class="section" id="homebrew-0-9-python">
+<h1>Homebrew 0.9 で複数バージョンの python をインストール</h1>
+<p>homebrew 0.9 では formula リポジトリを追加できるようになったようです。これに伴い LibraryAlt から versions が削除されたので、これからは新しいやり方でインストールする必要があります。</p>
+<p>最初に homebrew/versions リポジトリが使えるようにします。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew tap homebrew/versions
+</pre></div>
+</div>
+<p>あとはいつも通りにインストールできます。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew install python25 python26 python31
+</pre></div>
+</div>
+<p>homebrew では複数バージョンの python を同時にアクティブにすることはできません。unlink した後、手動で symlink を作成します。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew unlink python25
+$ brew unlink python26
+$ brew unlink python31
+$ ln -s /usr/local/Cellar/python25/*/bin/python /usr/local/bin/python2.5
+$ ln -s /usr/local/Cellar/python26/*/bin/python /usr/local/bin/python2.6
+$ ln -s /usr/local/Cellar/python31/*/bin/python3 /usr/local/bin/python3.1
+</pre></div>
+</div>
+<p>旧バージョンをインストールしたことでリンクが破壊された可能性があるので、張り直しておきます。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew unlink python
+$ brew link python
+$ brew unlink python3
+$ brew link python3
+</pre></div>
+</div>
+<p>これで複数バージョンのインストールが完了しました。</p>
+<p>余談ですが、python 3.0 は formula が提供されていないので、自作したものを gist にあげておきました。以下のコマンドでインストールできますが、python 3.0 をサポートする必要はないでしょう。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew install https://gist.github.com/raw/1930137/65bfbd8663cc15cd804166dc4246407afdad4857/python30.rb
+</pre></div>
+</div>
+</div>]]></description>
+            <category><![CDATA[ python ]]></category>
+            <pubDate>Sat, 14 Apr 2012 15:00:00 GMT</pubDate>
+        </item>
         <item>
             <link>http://yosisa.github.com/blog/2012/04/14/seil_policy_routing.html</link>
             <guid>http://yosisa.github.com/blog/2012/04/14/seil_policy_routing.html</guid>

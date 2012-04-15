@@ -12,7 +12,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SEIL のポリシールーティング機能で Source Routing をする &mdash; log.randomly</title>
+    <title>Homebrew 0.9 で複数バージョンの python をインストール &mdash; log.randomly</title>
     
     <link rel="stylesheet" href="../../../_static/modern.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -32,8 +32,7 @@
     <link rel="shortcut icon" href="../../../_static/tinkerer.ico"/>
     
     <link rel="top" title="log.randomly" href="../../../index.html" />
-    <link rel="next" title="Tinkerer と GitHub ではじめる Sphinx blog" href="../../02/21/sphinx_blog_using_tinkerer_and_github.html" />
-    <link rel="prev" title="Homebrew 0.9 で複数バージョンの python をインストール" href="../15/install_multiple_python_using_homebrew.html" />
+    <link rel="next" title="SEIL のポリシールーティング機能で Source Routing をする" href="../14/seil_policy_routing.html" />
     <link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html">
      
 
@@ -86,10 +85,10 @@
     <h3>Recent Posts</h3>
     <ul>
         <li>
-            <a href="../15/install_multiple_python_using_homebrew.html">Homebrew 0.9 で複数バージョンの python をインストール</a>
+            <a href="#">Homebrew 0.9 で複数バージョンの python をインストール</a>
         </li>
         <li>
-            <a href="#">SEIL のポリシールーティング機能で Source Routing をする</a>
+            <a href="../14/seil_policy_routing.html">SEIL のポリシールーティング機能で Source Routing をする</a>
         </li>
         <li>
             <a href="../../02/21/sphinx_blog_using_tinkerer_and_github.html">Tinkerer と GitHub ではじめる Sphinx blog</a>
@@ -124,34 +123,47 @@
     
     <div class="related">
         <ul>
-            <li>
-                 &laquo; <a href="../15/install_multiple_python_using_homebrew.html">Homebrew 0.9 で複数バージョンの python をインストール</a>
-            </li>
             <li class="right">
-                <a href="../../02/21/sphinx_blog_using_tinkerer_and_github.html">Tinkerer と GitHub ではじめる Sphinx blog</a> &raquo; 
+                <a href="../14/seil_policy_routing.html">SEIL のポリシールーティング機能で Source Routing をする</a> &raquo; 
             </li>
         </ul>
     </div>
     
         <div class="timestamp postmeta">
-            <span>April 14, 2012</span> 
+            <span>April 15, 2012</span> 
         </div>
-    <div class="section" id="seil-source-routing">
-<h1>SEIL のポリシールーティング機能で Source Routing をする</h1>
-<p>SEIL のポリシールーティング機能は、様々な条件を元にパケットを転送する機能です。この機能を使うと Source Routing を実現できます。</p>
-<p>src addr が pppoe1 に割り当てられた IP アドレスの時は pppoe1 からパケットを転送するのは以下の設定を入れます。</p>
-<div class="highlight-none"><div class="highlight"><pre>filter add route0 action forward pppoe1 direction out src pppoe1
+    <div class="section" id="homebrew-0-9-python">
+<h1>Homebrew 0.9 で複数バージョンの python をインストール</h1>
+<p>homebrew 0.9 では formula リポジトリを追加できるようになったようです。これに伴い LibraryAlt から versions が削除されたので、これからは新しいやり方でインストールする必要があります。</p>
+<p>最初に homebrew/versions リポジトリが使えるようにします。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew tap homebrew/versions
 </pre></div>
 </div>
-<p>この設定を入れると、pppoe1 に来た SEIL 宛ての通信は pppoe1 から応答するようになります。2 つの ISP 契約をしていて default gateway が pppoe0 に向いているときでも、往復の経路を一致させることができます。</p>
-<p>pppoe0 の ISP が Source Address Validation をやっていて、pppoe1 の IP アドレスと通信ができない時に入れるといいでしょう。<a class="footnote-reference" href="#f1" id="id1">[1]</a></p>
-<p class="rubric">脚注</p>
-<table class="docutils footnote" frame="void" id="f1" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>pppoe1 と L2TP/IPSec が張れなくなって原因がわからなかったんだけど、そういえば pppoe0 の ISP を nifty から emobile に変えたな〜、というのが発端。</td></tr>
-</tbody>
-</table>
+<p>あとはいつも通りにインストールできます。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew install python25 python26 python31
+</pre></div>
+</div>
+<p>homebrew では複数バージョンの python を同時にアクティブにすることはできません。unlink した後、手動で symlink を作成します。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew unlink python25
+$ brew unlink python26
+$ brew unlink python31
+$ ln -s /usr/local/Cellar/python25/*/bin/python /usr/local/bin/python2.5
+$ ln -s /usr/local/Cellar/python26/*/bin/python /usr/local/bin/python2.6
+$ ln -s /usr/local/Cellar/python31/*/bin/python3 /usr/local/bin/python3.1
+</pre></div>
+</div>
+<p>旧バージョンをインストールしたことでリンクが破壊された可能性があるので、張り直しておきます。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew unlink python
+$ brew link python
+$ brew unlink python3
+$ brew link python3
+</pre></div>
+</div>
+<p>これで複数バージョンのインストールが完了しました。</p>
+<p>余談ですが、python 3.0 は formula が提供されていないので、自作したものを gist にあげておきました。以下のコマンドでインストールできますが、python 3.0 をサポートする必要はないでしょう。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ brew install https://gist.github.com/raw/1930137/65bfbd8663cc15cd804166dc4246407afdad4857/python30.rb
+</pre></div>
+</div>
 </div>
 
     
@@ -165,7 +177,7 @@
             <span>
                 Filed under:
                 
-                    <a href="../../../categories/network.html">network</a>
+                    <a href="../../../categories/python.html">python</a>
                 
             </span>
         </div>
@@ -174,9 +186,11 @@
             <span>
                 Tags:
                 
-                    <a href="../../../tags/seil.html">seil</a>,
+                    <a href="../../../tags/python.html">python</a>,
                 
-                    <a href="../../../tags/network.html">network</a>
+                    <a href="../../../tags/homebrew.html">homebrew</a>,
+                
+                    <a href="../../../tags/mac_os_x.html">mac os x</a>
                 
             </span>
         </div>
