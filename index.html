@@ -86,6 +86,9 @@
     <h3>Recent Posts</h3>
     <ul>
         <li>
+            <a href="2012/04/21/pyfluent_0_2_0_release.html">pyfluent 0.2.0 をリリースしました</a>
+        </li>
+        <li>
             <a href="2012/04/15/install_multiple_python_using_homebrew.html">Homebrew 0.9 で複数バージョンの python をインストール</a>
         </li>
         <li>
@@ -122,6 +125,105 @@
           <div class="body">
             
     
+        
+        <div class="timestamp postmeta">
+            <span>April 21, 2012</span> 
+        </div>
+        <?xml version="1.0" ?><div class="section" id="pyfluent-0-2-0">
+<a href="2012/04/21/pyfluent_0_2_0_release.html"><h1>pyfluent 0.2.0 をリリースしました</h1></a>
+<p>fluentd に python からアクセスする pyfluent を作成しています。このたび 0.2.0 をリリースしましたので、簡単に紹介したいと思います。</p>
+<p>ソースコードは<a class="reference external" href="https://github.com/yosisa/pyfluent"> github</a> にあります。まだまだ完成には遠いので、API が将来のバージョンで変わるかもしれないのはご了承ください。</p>
+<div class="section" id="id1">
+<h2>インストール</h2>
+<p>pip でインストールしています。python 2.5 - 3.2 に対応しています。</p>
+<div class="highlight-none"><div class="highlight"><pre>$ pip install pyfluent
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>クライアントになる</h2>
+<p>python から fluentd へのメッセージの送信は非常に簡単です。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyfluent.client</span> <span class="kn">import</span> <span class="n">FluentSender</span>
+<span class="n">fluent</span> <span class="o">=</span> <span class="n">FluentSender</span><span class="p">()</span>
+<span class="n">fluent</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">'Hello pyfluent!'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>デフォルトで localhost:24224 に接続に行きます。また、tag は空文字です。これらの挙動は初期化時に引数を与えることで変更できます。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fluent</span> <span class="o">=</span> <span class="n">FluentSender</span><span class="p">(</span><span class="s">'fluent.example.com'</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="s">'pyfluent'</span><span class="p">)</span>
+<span class="n">fluent</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">'Hello pyfluent!'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>send に文字列を渡すと、送信前に <tt class="docutils literal"><span class="pre">message</span></tt> をキーにした dict を自動的に作成します。dict を直接渡すことも可能です。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fluent</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s">'hello'</span><span class="p">:</span> <span class="s">'fluent'</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>また、送信する時に tag や timestamp を変更することもできます。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="n">fluent</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s">'hello'</span><span class="p">:</span> <span class="s">'fluent'</span><span class="p">},</span> <span class="s">'pyfluent.info'</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="logging-handler">
+<h2>logging handler として使う</h2>
+<p>python の logging モジュールと一緒に使える logging handler も提供しています。以下のようにセットアップします。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pyfluent.logging</span> <span class="kn">import</span> <span class="n">SafeFluentHandler</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">SafeFluentHandler</span><span class="p">(</span><span class="s">'localhost'</span><span class="p">,</span> <span class="mi">24224</span><span class="p">,</span> <span class="s">'pyfluent'</span><span class="p">)</span>
+<span class="n">handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>後は普通に使うだけです。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">'hello pyfluent!'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">SafeFluentHandler</span></tt> の引数は省略することができ、その場合は <tt class="docutils literal"><span class="pre">FluentSender</span></tt> と同じになります。</p>
+<p>また、簡単に情報を集められるように <tt class="docutils literal"><span class="pre">FluentFormatter</span></tt> を提供しています。これを使うと、LogRecord のほとんどの情報を自動的に送信できます。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyfluent.logging</span> <span class="kn">import</span> <span class="n">FluentFormatter</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">FluentFormatter</span><span class="p">(</span><span class="s">'</span><span class="si">%(asctime)s</span><span class="s"> </span><span class="si">%(levelname)s</span><span class="s"> </span><span class="si">%(message)s</span><span class="s">'</span><span class="p">)</span>
+<span class="n">handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">'get more information'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">FluentFormatter</span></tt> は LogRecord から <tt class="docutils literal"><span class="pre">FluentFormatter.exclude</span></tt> で指定されたものを除外し、それ以外を送信します。この list を変更することで、含める情報を変更できます。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">formatter</span><span class="o">.</span><span class="n">exclude</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'threadName'</span><span class="p">,</span> <span class="s">'module'</span><span class="p">,</span> <span class="s">'filename'</span><span class="p">,</span> <span class="s">'process'</span><span class="p">,</span>
+<span class="s">'processName'</span><span class="p">,</span> <span class="s">'pathname'</span><span class="p">,</span> <span class="s">'lineno'</span><span class="p">,</span> <span class="s">'funcName'</span><span class="p">]</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">'suppress unnecessary information'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>pyfluent を使えば、python から簡単に fluentd にメッセージを投げることができます。是非試してみてください。</p>
+</div>
+</div>
+        
+    <div class="postmeta">
+        
+        <div class="author">
+            <span>Posted by Yoshihisa Tanaka</span>
+        </div>
+        
+        <div class="categories">
+            <span>
+                Filed under:
+                
+                    <a href="categories/python.html">python</a>
+                
+            </span>
+        </div>
+        
+        <div class="tags">
+            <span>
+                Tags:
+                
+                    <a href="tags/python.html">python</a>,
+                
+                    <a href="tags/fluentd.html">fluentd</a>
+                
+            </span>
+        </div>
+        
+    </div><div class="separator post_separator"></div>
         
         <div class="timestamp postmeta">
             <span>April 15, 2012</span> 

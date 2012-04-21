@@ -1,0 +1,83 @@
+.. highlight:: python
+
+pyfluent 0.2.0 をリリースしました
+=================================
+fluentd に python からアクセスする pyfluent を作成しています。
+このたび 0.2.0 をリリースしましたので、簡単に紹介したいと思います。
+
+ソースコードは `github <https://github.com/yosisa/pyfluent>`_ にあります。
+まだまだ完成には遠いので、API が将来のバージョンで変わるかもしれないのはご了承ください。
+
+インストール
+------------
+pip でインストールしています。python 2.5 - 3.2 に対応しています。
+
+.. code-block:: none
+
+  $ pip install pyfluent
+
+クライアントになる
+------------------
+python から fluentd へのメッセージの送信は非常に簡単です。 ::
+
+  from pyfluent.client import FluentSender
+  fluent = FluentSender()
+  fluent.send('Hello pyfluent!')
+
+デフォルトで localhost:24224 に接続に行きます。また、tag は空文字です。
+これらの挙動は初期化時に引数を与えることで変更できます。 ::
+
+  fluent = FluentSender('fluent.example.com', 10000, 'pyfluent')
+  fluent.send('Hello pyfluent!')
+
+send に文字列を渡すと、送信前に ``message`` をキーにした dict を自動的に作成します。
+dict を直接渡すことも可能です。 ::
+
+  fluent.send({'hello': 'fluent'})
+
+また、送信する時に tag や timestamp を変更することもできます。 ::
+
+  import time
+  fluent.send({'hello': 'fluent'}, 'pyfluent.info', time.time() - 60)
+
+logging handler として使う
+--------------------------
+python の logging モジュールと一緒に使える logging handler も提供しています。
+以下のようにセットアップします。 ::
+
+  import logging
+  from pyfluent.logging import SafeFluentHandler
+  handler = SafeFluentHandler('localhost', 24224, 'pyfluent')
+  handler.setLevel(logging.INFO)
+  logger = logging.getLogger()
+  logger.setLevel(logging.INFO)
+  logger.addHandler(handler)
+
+後は普通に使うだけです。 ::
+
+  logger.info('hello pyfluent!')
+
+``SafeFluentHandler`` の引数は省略することができ、その場合は ``FluentSender`` と同じになります。
+
+また、簡単に情報を集められるように ``FluentFormatter`` を提供しています。
+これを使うと、LogRecord のほとんどの情報を自動的に送信できます。 ::
+
+  from pyfluent.logging import FluentFormatter
+  formatter = FluentFormatter('%(asctime)s %(levelname)s %(message)s')
+  handler.setFormatter(formatter)
+  logger.info('get more information')
+
+``FluentFormatter`` は LogRecord から ``FluentFormatter.exclude`` で指定されたものを除外し、
+それ以外を送信します。この list を変更することで、含める情報を変更できます。 ::
+
+  formatter.exclude += ['threadName', 'module', 'filename', 'process',
+  'processName', 'pathname', 'lineno', 'funcName']
+  logger.info('suppress unnecessary information')
+
+pyfluent を使えば、python から簡単に fluentd にメッセージを投げることができます。
+是非試してみてください。
+
+.. author:: default
+.. categories:: python
+.. tags:: python, fluentd
+.. comments::
