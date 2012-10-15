@@ -1,0 +1,18 @@
+独自ドメインに移転しました
+==========================
+さくらの VPS を契約したので、ブログを移転して独自ドメインで運用することにしました。
+
+新 URL は http://blog.4shs.org/ になります。
+
+`GitHub を使ったブログ <http://yosisa.github.com/blog/>`_ は結構快適でした。
+:doc:`/2012/02/21/sphinx_blog_using_tinkerer_and_github` は今でもオススメです。
+
+さくらの VPS は国内サーバだけあってネットワーク遅延が少なく、ページの読み込みは早いですね。
+でも体感だと大差ないかもしれません。
+
+さくらの VPS を契約してからこのブログを構築するまでの過程を、近いうちに記事にしたいと思います。
+
+.. author:: default
+.. categories:: misc
+.. tags:: none
+.. comments::
